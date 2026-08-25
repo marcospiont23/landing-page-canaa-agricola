@@ -1,6 +1,7 @@
 /* hero.css */
 .hero-section{
-    background: url(../../images/banners/hero.jpg) no-repeat center;
+    background: url(../../images/banners/cafe-hero.jpg) no-repeat center;
+    background-repeat: no-repeat;
     background-size: cover;
 
     height: 500px;
@@ -42,9 +43,9 @@
 }
 
 @media (max-width:768px) {
-	.hero-section{
-		height: 660px;
-		background-image: url(../../images/banners/hero-mobile.jpg);
+    .hero-section{
+        height: 660px;
+        background-image: url(../../images/banners/cafe-mobile.jpg);
 	}
 
 	.hero-overlay{

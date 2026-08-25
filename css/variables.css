@@ -2,4 +2,13 @@
 
 :root{
     --fonte-principal: 'Ubuntu', sans-serif;
+    --brand-dark: #333333;
+    --brand-green: #22c55e;
+    --brand-green-dark: #16a34a;
+    --white: #ffffff;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
 }
