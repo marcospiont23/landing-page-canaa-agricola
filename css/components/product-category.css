@@ -16,6 +16,13 @@
 	overflow: hidden;
 }
 
+.category-link {
+	display: block;
+	position: absolute;
+	inset: 0;
+	color: inherit;
+}
+
 .overlay{
 	position: absolute;
 	inset: 0;
@@ -33,17 +40,17 @@
 }
 
 .fertilizantes {
-	background: url(../../images/products/casual.jpg) no-repeat center;
+	background: url(../../images/products/fertfull.jpg) no-repeat center;
 	background-size: cover;
 }
 
 .adubos {
-	background: url(../../images/products/esporte.jpg) no-repeat center;
+	background: url(../../images/products/ca-mag-ferticel.png) no-repeat center;
 	background-size: cover;
 }
 
 .defensivos {
-	background: url(../../images/products/moderno.jpg) no-repeat center;
+	background: url(../../images/products/cobre-1.jpg) no-repeat center;
 	background-size: cover;
 }
 

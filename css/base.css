@@ -5,14 +5,14 @@ body{
 }
 
 main{
-    padding: 2.5rem 0 2.5rem;
+    padding: 140px 0 2.5rem;
     max-width: 1360px;
     margin: 0 auto;
 }
 
 @media (max-width:1280px) {
 	main{
-		padding: 0.625rem;
+        padding: 120px 0.625rem 0.625rem;
 	}
 }
 
@@ -24,7 +24,7 @@ main{
     color: #ffffff;
     font-weight: 400;
     padding: 10px 20px;
-    transition: backgound-color 0.3s, border 0.3s;
+    transition: background-color 0.3s, border 0.3s;
 }
 
 .btn-outline{

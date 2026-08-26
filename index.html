@@ -13,7 +13,7 @@
 	<link rel="stylesheet" href="./css/components/header.css" />
 	<link rel="stylesheet" href="./css/components/hero.css" />
 	<link rel="stylesheet" href="./css/components/product-category.css" />
-	<link rel="stylesheet" href="./css/components/product-grid.css" />
+	<link rel="stylesheet" href="./css/components/location-info.css" />
 	<link rel="stylesheet" href="./css/components/footer.css" />
 </head>
 
@@ -21,41 +21,41 @@
 	<header class="header">
 		<!-- Logo e navegação -->
 		<h1 class="logo">
-			<a href="/" title="Canaã Soluções Agrícolas">
+			<a href="./index.html" title="Canaã Soluções Agrícolas">
 				<img src="./images/logo/logo-canaa-agricola.svg" alt="Canaã Soluções Agrícolas" />
 			</a>
 		</h1>
 
 		<input type="checkbox" class="menu-toggle" id="menu-toggle" />
 		<label for="menu-toggle" class="menu-icon">
-			<img src="./images/icons/hamburguer.svg" alt="menu mobile" srcset="" />
+			<img src="./images/icons/hamburguer.svg" alt="Abrir menu" />
 		</label>
 
 		<nav class="nav-container">
 			<nav class="nav-center" aria-label="Categorias Principais">
 				<ul>
-					<li><a href="#">Fertilizantes</a></li>
-					<li><a href="#">Adubos</a></li>
-					<li><a href="#">Defensivos</a></li>
+					<li><a href="#fertilizantes">Fertilizantes</a></li>
+					<li><a href="#adubos">Adubos</a></li>
+					<li><a href="#defensivos">Defensivos</a></li>
 				</ul>
 			</nav>
 
 			<nav class="nav-right" aria-label="Acesso rápido">
 				<ul>
-					<li><a href="#">Nossa loja</a></li>
-					<li><a href="#">Sobre</a></li>
+					<li><a href="#contato">Nossa loja</a></li>
+					<li><a href="#sobre">Sobre</a></li>
 					<li>
-						<a href="#" aria-label="Minha conta">
+						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Falar com a loja">
 							<img src="./images/icons/user.svg" alt="Minha conta" />
 						</a>
 					</li>
 					<li>
-						<a href="#" aria-label="Ajuda">
+						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Ajuda pelo WhatsApp">
 							<img src="./images/icons/help.svg" alt="Ajuda" />
 						</a>
 					</li>
 					<li>
-						<a href="#" aria-label="Carrinho">
+						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Solicitar produtos">
 							<img src="./images/icons/bag.svg" alt="Carrinho" />
 						</a>
 					</li>
@@ -72,37 +72,35 @@
 					<span class="hero-subtitle">Canaã Soluções Agrícolas</span>
 					<h2 class="hero-title">Parceria para o sucesso da sua lavoura.</h2>
 					<div class="hero-buttons">
-						<a class="btn btn-outline" href="#">Ver Produtos</a>
-						<a class="btn btn-filled" href="#">Comprar</a>
+						<a class="btn btn-outline" href="#categorias">Ver Produtos</a>
+						<a class="btn btn-filled" href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer">Comprar</a>
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<section class="categories-section">
-			<!-- Seção de categorias de tênis -->
-			<div class="category-card casual">
-				<a href="#" class="category-link">
+		<section class="categories-section" id="categorias">
+			<div class="category-card fertilizantes" id="fertilizantes">
+				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar fertilizantes">
 					<span class="overlay"></span>
 					<span class="category-name btn btn-outline">Fertilizantes</span>
 				</a>
 			</div>
-			<div class="category-card esporte">
-				<a href="#" class="category-link">
+			<div class="category-card adubos" id="adubos">
+				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar adubos">
 					<span class="overlay"></span>
 					<span class="category-name btn btn-outline">Adubos</span>
 				</a>
 			</div>
-			<div class="category-card moderno">
-				<a href="#" class="category-link">
+			<div class="category-card defensivos" id="defensivos">
+				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar defensivos">
 					<span class="overlay"></span>
 					<span class="category-name btn btn-outline">Defensivos</span>
 				</a>
 			</div>
 		</section>
 
-		<!-- Products Grid -->
-		<section class="info-section">
+		<section class="info-section" id="sobre">
 			<div class="top1-content">
 				<h3 class="card-title">São Roque do Canaã</h3>
 				<p class="card-subtitle">Localizado na região serrana do Espírito Santo, tem na agricultura uma de suas
@@ -110,17 +108,7 @@
 					café, ao lado de culturas como banana, goiaba e hortaliças. A diversidade do campo, aliada à
 					presença da agricultura familiar, contribui para a geração de renda e para a preservação das
 					tradições que fazem parte da identidade das comunidades rurais.</p>
-				<!-- <div class="cta-group">
-						<a href="#" class="btn btn-outline">Feminino</a>
-						<a href="#" class="btn btn-outline">Masculino</a>
-					</div> -->
 			</div>
-			
-			<!-- <div class="card sneaker-purple"></div>
-			<div class="card model"></div>
-			<div class="card sneaker-color"></div>
-			<div class="card sneaker-white"></div>
-			<div class="card sneaker-silver"></div> -->
 		</section>
 	</main>
 
@@ -130,7 +118,7 @@
 				<!-- Brand Info -->
 				<div class="footer-brand">
 					<div class="footer-map-wrapper">
-						<iframe
+						<iframe title="Mapa da unidade Canaã em São Roque do Canaã"
 							src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d938.8907942560528!2d-40.64935754881555!3d-19.73121326009167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1773360513092!5m2!1spt-BR!2sbr"
 							allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 						<br /><small><a class="link-amp" href="https://maps.app.goo.gl/e29JFR4KeHUAvwbY9"

@@ -1,0 +1,30 @@
+.info-section {
+	padding: 2rem;
+	background-color: #f3f4f6;
+	border-radius: 20px;
+}
+
+.top1-content {
+	max-width: 850px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.card-title {
+	color: #000000;
+	font-size: 1.25rem;
+	font-weight: 400;
+	margin-bottom: 10px;
+}
+
+.card-subtitle {
+	color: #000000;
+	font-size: 1.125rem;
+	font-weight: 400;
+}
+
+@media (max-width: 768px) {
+	.info-section {
+		padding: 1.5rem 1rem;
+	}
+}
