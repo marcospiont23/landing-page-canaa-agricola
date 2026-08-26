@@ -3,7 +3,6 @@
     background: url(../../images/banners/cafe-hero.jpg) no-repeat center;
     background-repeat: no-repeat;
     background-size: cover;
-
     height: 500px;
     position: relative;
     border-radius: 20px;
@@ -30,16 +29,21 @@
 }
 
 .hero-content .hero-title{
-    font-size: 1.87rem;
+    font-size: 2.1rem;
+    border-radius: 45px;
+    background-color: rgba(0, 0, 0, 0.7);
     margin-bottom: 40px;
     font-weight: 400;
-    line-height: 36px;
+    line-height: 30px;
     letter-spacing: 3px;
+    color: rgb(255, 255, 255)
 }
 
 .hero-content .hero-subtitle{
-    font-size: 1.25rem;
+    font-size: 1.5rem;        border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
     font-weight: 400;
+    color: rgb(255, 255, 255);
 }
 
 @media (max-width:768px) {

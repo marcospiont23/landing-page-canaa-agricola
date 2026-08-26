@@ -32,23 +32,18 @@
 	text-align: center;
 }
 
-.casual {
+.fertilizantes {
 	background: url(../../images/products/casual.jpg) no-repeat center;
 	background-size: cover;
 }
 
-.esporte {
+.adubos {
 	background: url(../../images/products/esporte.jpg) no-repeat center;
 	background-size: cover;
 }
 
-.moderno {
+.defensivos {
 	background: url(../../images/products/moderno.jpg) no-repeat center;
-	background-size: cover;
-}
-	
-.futurista {
-	background: url(../../images/products/futurista.jpg) no-repeat center;
 	background-size: cover;
 }
 

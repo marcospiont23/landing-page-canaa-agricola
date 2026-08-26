@@ -2,7 +2,7 @@
 .main-footer {
     background-color: var(--brand-dark);
     color: var(--gray-300);
-    padding-top: 5rem;
+    padding: 5rem;
     padding-bottom: 2.5rem;
 }
 
@@ -175,3 +175,8 @@
     height: 2rem;
 }
 
+.footer-map-wrapper .link-amp {
+    color: var(--brand-green);
+    font-size: 0.875rem;
+    text-decoration: underline;
+}
