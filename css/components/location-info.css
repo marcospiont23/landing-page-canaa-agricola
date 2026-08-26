@@ -1,6 +1,6 @@
 .info-section {
 	padding: 2rem;
-	background-color: #f3f4f6;
+	background-color: #3e4147;
 	border-radius: 20px;
 }
 
@@ -11,16 +11,17 @@
 }
 
 .card-title {
-	color: #000000;
+	color: #ffffff;
 	font-size: 1.25rem;
 	font-weight: 400;
 	margin-bottom: 10px;
 }
 
 .card-subtitle {
-	color: #000000;
+	color: #ffffff;
 	font-size: 1.125rem;
 	font-weight: 400;
+    text-align: justify;
 }
 
 @media (max-width: 768px) {

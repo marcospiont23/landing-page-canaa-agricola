@@ -40,7 +40,7 @@
 }
 
 .fertilizantes {
-	background: url(../../images/products/fertfull.jpg) no-repeat center;
+	background: url(../../images/products/spray-1.jpg) no-repeat center;
 	background-size: cover;
 }
 
@@ -50,11 +50,11 @@
 }
 
 .defensivos {
-	background: url(../../images/products/cobre-1.jpg) no-repeat center;
+	background: url(../../images/products/fertfull.jpg) no-repeat center;
 	background-size: cover;
 }
 
-@media (max-width:500px) {
+@media (max-width:700px) {
 	.category-card{
 		width: 100%;
 	}
