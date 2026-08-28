@@ -1,9 +1,12 @@
 /* hero.css */
 .hero-section{
-    background: url(../../images/banners/loja-hero.jpeg) no-repeat center;
+    background-image: url(../../images/banners/loja-hero.jpeg);
     background-repeat: no-repeat;
-    background-size: cover;
-    height: 500px;
+    background-position: center;
+    background-size: 100% auto;
+    width: 100%;
+    aspect-ratio: 3321 / 2004;
+    height: auto;
     position: relative;
     border-radius: 20px;
 }
@@ -49,7 +52,9 @@
 @media (max-width:768px) {
     .hero-section{
         height: 660px;
+        aspect-ratio: auto;
         background-image: url(../../images/banners/cafe-mobile.jpg);
+        background-size: cover;
 	}
 
 	.hero-overlay{
