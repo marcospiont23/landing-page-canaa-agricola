@@ -67,6 +67,7 @@
 .address-card {
     background-color: rgba(31, 41, 55, 0.5);
     padding: 1.5rem;
+    max-width: 500px;
     border-radius: 0.75rem;
     border: 1px solid var(--gray-700);
     display: flex;
@@ -80,8 +81,25 @@
 
 .address-details .unit-name {
     color: var(--white);
+    font-size: 2rem;
     font-weight: 600;
     margin-bottom: 0.25rem;
+}
+
+.address-details .end-name {
+    color: var(--gray-400);
+    font-size: 1.25rem;
+    margin-bottom: 0.1rem;
+}
+
+@media (max-width: 768px) {
+    .address-details .unit-name {
+        font-size: 1.1rem;
+    }
+
+    .address-details .end-name {
+        font-size: 0.75rem;
+    }
 }
 
 .footer-links {
