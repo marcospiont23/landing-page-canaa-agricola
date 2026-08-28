@@ -45,19 +45,21 @@
 					<li><a href="#contato">Nossa loja</a></li>
 					<li><a href="#sobre">Sobre</a></li>
 					<li>
-						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Falar com a loja">
-							<img src="./images/icons/user.svg" alt="Minha conta" />
+						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer"
+							aria-label="Falar com a loja">
 						</a>
 					</li>
 					<li>
-						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Ajuda pelo WhatsApp">
+						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer"
+							aria-label="Ajuda pelo WhatsApp">
 							<img src="./images/icons/help.svg" alt="Ajuda" />
 						</a>
 					</li>
 					<li>
-						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" aria-label="Solicitar produtos">
+						<button class="cart-toggle" type="button" aria-label="Abrir carrinho" aria-controls="cart-panel" aria-expanded="false">
 							<img src="./images/icons/bag.svg" alt="Carrinho" />
-						</a>
+							<span class="cart-count" aria-live="polite">0</span>
+						</button>
 					</li>
 				</ul>
 			</nav>
@@ -73,31 +75,63 @@
 					<h2 class="hero-title">Parceria para o sucesso da sua lavoura.</h2>
 					<div class="hero-buttons">
 						<a class="btn btn-outline" href="#categorias">Ver Produtos</a>
-						<a class="btn btn-filled" href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer">Comprar</a>
+						<a class="btn btn-filled" href="https://wa.me/5527999524877" target="_blank"
+							rel="noopener noreferrer">Comprar</a>
 					</div>
 				</div>
 			</div>
 		</section>
 
 		<section class="categories-section" id="categorias">
-			<div class="category-card fertilizantes" id="fertilizantes">
-				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar fertilizantes">
-					<span class="overlay"></span>
+			<details class="category-item fertilizantes" id="fertilizantes">
+				<summary class="category-card">
+					<span class="overlay" aria-hidden="true"></span>
 					<span class="category-name btn btn-outline">Fertilizantes</span>
-				</a>
-			</div>
-			<div class="category-card adubos" id="adubos">
-				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar adubos">
-					<span class="overlay"></span>
+				</summary>
+				<div class="catalog-panel">
+					<div class="catalog-header">
+						<div>
+							<p class="catalog-kicker">Catálogo de produtos</p>
+							<h2 class="catalog-title">Fertilizantes</h2>
+						</div>
+					</div>
+					<div class="product-grid" data-category="fertilizantes"></div>
+				</div>
+			</details>
+
+			<details class="category-item adubos" id="adubos">
+				<summary class="category-card">
+					<span class="overlay" aria-hidden="true"></span>
 					<span class="category-name btn btn-outline">Adubos</span>
-				</a>
-			</div>
-			<div class="category-card defensivos" id="defensivos">
-				<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer" class="category-link" aria-label="Consultar defensivos">
-					<span class="overlay"></span>
+				</summary>
+				<div class="catalog-panel">
+					<div class="catalog-header">
+						<div>
+							<p class="catalog-kicker">Catálogo de produtos</p>
+							<h2 class="catalog-title">Adubos</h2>
+						</div>
+					</div>
+					<div class="product-grid" data-category="adubos"></div>
+				</div>
+			</details>
+
+			<details class="category-item defensivos" id="defensivos">
+				<summary class="category-card">
+					<span class="overlay" aria-hidden="true"></span>
 					<span class="category-name btn btn-outline">Defensivos</span>
-				</a>
-			</div>
+				</summary>
+				<div class="catalog-panel">
+					<div class="catalog-header">
+						<div>
+							<p class="catalog-kicker">Catálogo de produtos</p>
+							<h2 class="catalog-title">Defensivos</h2>
+						</div>
+					</div>
+					<div class="product-grid" data-category="defensivos"></div>
+				</div>
+			</details>
+
+			<!-- Para adicionar produtos, inclua uma nova entrada no catálogo em ./js/products.js. -->
 		</section>
 
 		<section class="info-section" id="sobre">
@@ -196,6 +230,22 @@
 			</svg>
 		</a>
 	</div>
+
+	<aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title" aria-hidden="true">
+		<div class="cart-header">
+			<h2 id="cart-title">Seu carrinho</h2>
+			<button class="cart-close" type="button" aria-label="Fechar carrinho">&times;</button>
+		</div>
+		<p class="cart-empty">Seu carrinho está vazio.</p>
+		<ul class="cart-items"></ul>
+		<div class="cart-footer">
+			<p><span>Total de itens</span><strong class="cart-total">0</strong></p>
+			<button class="whatsapp-order" type="button" disabled>Solicitar pelo WhatsApp</button>
+		</div>
+	</aside>
+	<div class="cart-backdrop" hidden></div>
+	<script src="./js/products.js"></script>
+	<script src="./js/cart.js"></script>
 </body>
 
 </html>
