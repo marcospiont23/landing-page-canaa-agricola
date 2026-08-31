@@ -188,10 +188,12 @@ function renderTable() {
 				</td>
 				<td>
 					<div class="table-actions">
-						<button type="button" class="btn-icon edit" title="Editar produto" onclick="openEditModal('${item.category}', ${item.originalIndex})">
+						<button type="button" class="btn-icon edit" title="Editar produto" data-action="edit"
+							data-category="${item.category}" data-index="${item.originalIndex}">
 							✏️
 						</button>
-						<button type="button" class="btn-icon delete" title="Excluir produto" onclick="openDeleteModal('${item.category}', ${item.originalIndex}, '${escapeQuotes(item.name)}')">
+						<button type="button" class="btn-icon delete" title="Excluir produto" data-action="delete"
+							data-category="${item.category}" data-index="${item.originalIndex}" data-product-name="${escapeHtml(item.name)}">
 							🗑️
 						</button>
 					</div>
@@ -309,6 +311,24 @@ function setupEventListeners() {
 		const emailInput = document.getElementById('admin-email-input');
 		if (emailInput) emailInput.value = currentEmail;
 		openModal(passwordModal);
+	});
+
+	// Ações da tabela são delegadas porque as linhas são renderizadas dinamicamente.
+	tableBody.addEventListener('click', (event) => {
+		const actionButton = event.target.closest('.btn-icon[data-action]');
+		if (!actionButton) return;
+
+		const category = actionButton.dataset.category;
+		const index = Number.parseInt(actionButton.dataset.index, 10);
+
+		if (actionButton.dataset.action === 'edit') {
+			openEditModal(category, index);
+			return;
+		}
+
+		if (actionButton.dataset.action === 'delete') {
+			openDeleteModal(category, index, actionButton.dataset.productName);
+		}
 	});
 
 	// Fechar Modais
@@ -738,10 +758,6 @@ function initSessionMonitoring() {
 		}
 	}
 }
-
-// Funções globais chamadas pelo HTML inline
-window.openEditModal = openEditModal;
-window.openDeleteModal = openDeleteModal;
 
 // Iniciar
 document.addEventListener('DOMContentLoaded', init);

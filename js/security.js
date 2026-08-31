@@ -184,12 +184,11 @@ function initializeAdminCredentials() {
     const hasUser = localStorage.getItem('canaa_admin_user');
     const hasPass = localStorage.getItem('canaa_admin_pass');
 
-    if (!hasUser || !hasPass) {
-        // Gerar senha aleatória de demonstração
-        const randomPass = 'Demo' + Math.random().toString(36).substring(2, 10);
-        
-        localStorage.setItem('canaa_admin_user', 'admin@empresa.com.br');
-        localStorage.setItem('canaa_admin_pass', randomPass);
+    const isLegacyDemoCredential = hasUser === 'admin@empresa.com.br' && hasPass.startsWith('Demo');
+
+    if (!hasUser || !hasPass || isLegacyDemoCredential) {
+        localStorage.setItem('canaa_admin_user', 'admin@canaa.com.br');
+        localStorage.setItem('canaa_admin_pass', 'senha123');
         
         console.log('%c⚠️ SEGURANÇA: Credenciais inicializadas com valores de demonstração', 
                     'color: orange; font-weight: bold; font-size: 12px');
