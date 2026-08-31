@@ -46,13 +46,13 @@
 					<li><a href="#contato">Nossa loja</a></li>
 					<li><a href="#sobre">Sobre</a></li>
 					<li>
-						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer"
-							aria-label="Falar com a loja">
+						<a href="./login.html" aria-label="Área Administrativa" title="Área Administrativa">
+							<img src="./images/icons/user.svg" alt="Administrador" />
 						</a>
 					</li>
 					<li>
 						<a href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer"
-							aria-label="Ajuda pelo WhatsApp">
+							aria-label="Ajuda pelo WhatsApp" title="Ajuda pelo WhatsApp">
 							<img src="./images/icons/help.svg" alt="Ajuda" />
 						</a>
 					</li>
@@ -261,6 +261,39 @@
 		</div>
 	</aside>
 	<div class="cart-backdrop" hidden></div>
+
+	<script>
+		const menuToggle = document.getElementById('menu-toggle');
+		const menuLinks = document.querySelectorAll('.nav-container a');
+
+		const closeMobileMenu = () => {
+			if (menuToggle) {
+				menuToggle.checked = false;
+			}
+		};
+
+		menuLinks.forEach((link) => {
+			link.addEventListener('click', closeMobileMenu);
+		});
+
+	
+document.addEventListener('click', (event) => {
+			if (!menuToggle || !menuToggle.checked) return;
+			const clickedInsideMenu = event.target.closest('.nav-container');
+			const clickedMenuButton = event.target.closest('.menu-icon');
+			if (!clickedInsideMenu && !clickedMenuButton) {
+				closeMobileMenu();
+			}
+		});
+
+	
+document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && menuToggle && menuToggle.checked) {
+				closeMobileMenu();
+			}
+		});
+	</script>
+
 	<script src="./js/products.js"></script>
 	<script src="./js/cart.js"></script>
 </body>

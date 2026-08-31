@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Acesso Administrativo - Canaã Soluções Agrícolas</title>
+	<meta name="robots" content="noindex, nofollow" />
+
+	<link rel="stylesheet" href="./css/reset.css" />
+	<link rel="stylesheet" href="./css/variables.css" />
+	<link rel="stylesheet" href="./css/base.css" />
+	<link rel="stylesheet" href="./css/components/admin.css" />
+</head>
+
+<body class="login-body">
+	<main class="login-card">
+		<div class="login-header">
+			<a href="./index.html" title="Voltar ao início">
+				<img src="./images/logo/logo-canaa-agricola.svg" alt="Canaã Soluções Agrícolas" class="login-logo" />
+			</a>
+			<h1 class="login-title">Painel Administrativo</h1>
+			<p class="login-subtitle">Entre com suas credenciais para gerenciar os produtos e conteúdos.</p>
+		</div>
+
+		<div id="login-alert" class="login-alert" role="alert"></div>
+
+		<form id="login-form" class="login-form" autocomplete="on">
+			<div class="form-group">
+				<label for="username">E-mail de Acesso</label>
+				<div class="input-wrapper">
+					<input type="email" id="username" class="form-control" placeholder="Digite seu e-mail" required autofocus autocomplete="username" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Senha</label>
+				<div class="input-wrapper">
+					<input type="password" id="password" class="form-control" placeholder="Digite sua senha" required autocomplete="current-password" />
+					<button type="button" id="toggle-password" class="toggle-password-btn" aria-label="Mostrar ou ocultar senha">👁️</button>
+				</div>
+			</div>
+
+			<button type="submit" class="login-btn">
+				<span>Entrar no Painel</span>
+				<span>&rarr;</span>
+			</button>
+		</form>
+
+		<div class="login-footer">
+			<a href="./index.html">
+				<span>&larr; Voltar para a Loja</span>
+			</a>
+		</div>
+	</main>
+
+	<script>
+		// Se já estiver logado, redireciona para o painel
+		if (sessionStorage.getItem('canaa_admin_logged') === 'true' || localStorage.getItem('canaa_admin_logged') === 'true') {
+			window.location.href = './admin.html';
+		}
+
+		const loginForm = document.getElementById('login-form');
+		const alertBox = document.getElementById('login-alert');
+		const togglePasswordBtn = document.getElementById('toggle-password');
+		const passwordInput = document.getElementById('password');
+
+		togglePasswordBtn.addEventListener('click', () => {
+			const isPassword = passwordInput.type === 'password';
+			passwordInput.type = isPassword ? 'text' : 'password';
+			togglePasswordBtn.textContent = isPassword ? '🙈' : '👁️';
+		});
+
+		loginForm.addEventListener('submit', (e) => {
+			e.preventDefault();
+			const username = document.getElementById('username').value.trim();
+			const password = passwordInput.value;
+
+			// Usuário e senha padrão ou personalizados salvos no localStorage
+			const validUser = localStorage.getItem('canaa_admin_user') || 'canaa.agricola01@gmail.com';
+			const validPass = localStorage.getItem('canaa_admin_pass') || 'admin';
+
+			if (username.toLowerCase() === validUser.toLowerCase() && password === validPass) {
+				alertBox.className = 'login-alert info';
+				alertBox.textContent = 'Autenticado com sucesso! Redirecionando...';
+				alertBox.style.display = 'flex';
+
+				sessionStorage.setItem('canaa_admin_logged', 'true');
+				setTimeout(() => {
+					window.location.href = './admin.html';
+				}, 600);
+			} else {
+				alertBox.className = 'login-alert error';
+				alertBox.textContent = 'E-mail ou senha incorretos. Tente novamente.';
+				alertBox.style.display = 'flex';
+				passwordInput.value = '';
+				passwordInput.focus();
+			}
+		});
+	</script>
+</body>
+
+</html>

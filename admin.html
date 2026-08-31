@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Painel Administrativo - Canaã Soluções Agrícolas</title>
+	<meta name="robots" content="noindex, nofollow" />
+
+	<link rel="stylesheet" href="./css/reset.css" />
+	<link rel="stylesheet" href="./css/variables.css" />
+	<link rel="stylesheet" href="./css/base.css" />
+	<link rel="stylesheet" href="./css/components/product-category.css" />
+	<link rel="stylesheet" href="./css/components/admin.css" />
+</head>
+
+<body class="admin-body">
+	<!-- Top Bar -->
+	<header class="admin-navbar">
+		<div class="admin-nav-container">
+			<a href="./admin.html" class="admin-brand">
+				<img src="./images/logo/logo-canaa-agricola.svg" alt="Canaã Soluções Agrícolas" class="admin-logo" />
+				<span class="admin-badge">Administração</span>
+			</a>
+
+			<div class="admin-nav-actions">
+				<a href="./index.html" class="admin-btn admin-btn-outline" target="_blank" title="Abrir loja em nova aba">
+					<span>🌐 Ver Loja</span>
+				</a>
+				<button type="button" id="btn-change-password" class="admin-btn admin-btn-outline" title="Gerenciar conta e senha">
+					<span>⚙️ Conta & Acesso</span>
+				</button>
+				<button type="button" id="btn-logout" class="admin-btn admin-btn-danger" title="Sair do painel">
+					<span>🚪 Sair</span>
+				</button>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main Content -->
+	<main class="admin-main">
+		<!-- Summary Cards -->
+		<section class="metrics-grid" aria-label="Estatísticas do Catálogo">
+			<div class="metric-card">
+				<div class="metric-icon total">📦</div>
+				<div class="metric-info">
+					<span class="metric-value" id="count-total">0</span>
+					<span class="metric-label">Total de Produtos</span>
+				</div>
+			</div>
+
+			<div class="metric-card">
+				<div class="metric-icon fertilizantes">🌱</div>
+				<div class="metric-info">
+					<span class="metric-value" id="count-fertilizantes">0</span>
+					<span class="metric-label">Fertilizantes</span>
+				</div>
+			</div>
+
+			<div class="metric-card">
+				<div class="metric-icon adubos">🌾</div>
+				<div class="metric-info">
+					<span class="metric-value" id="count-adubos">0</span>
+					<span class="metric-label">Adubos</span>
+				</div>
+			</div>
+
+			<div class="metric-card">
+				<div class="metric-icon defensivos">🛡️</div>
+				<div class="metric-info">
+					<span class="metric-value" id="count-defensivos">0</span>
+					<span class="metric-label">Defensivos</span>
+				</div>
+			</div>
+
+			<div class="metric-card">
+				<div class="metric-icon implementos">🚜</div>
+				<div class="metric-info">
+					<span class="metric-value" id="count-implementos">0</span>
+					<span class="metric-label">Implementos</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Products Management Card -->
+		<section class="content-card">
+			<div class="content-header">
+				<div class="content-title-wrapper">
+					<h2>Gerenciamento do Catálogo</h2>
+					<p>Inclua, edite ou remova produtos das categorias do site.</p>
+				</div>
+
+				<div class="content-actions">
+					<button type="button" id="btn-add-product" class="admin-btn admin-btn-primary">
+						<span>➕ Novo Produto</span>
+					</button>
+					<button type="button" id="btn-download-js" class="admin-btn admin-btn-success" title="Baixar arquivo products.js atualizado">
+						<span>📥 Baixar products.js</span>
+					</button>
+					<button type="button" id="btn-copy-code" class="admin-btn admin-btn-outline" title="Copiar código formatado de products.js">
+						<span>📋 Copiar Código</span>
+					</button>
+					<button type="button" id="btn-reset-default" class="admin-btn admin-btn-outline" title="Restaurar lista original de produtos">
+						<span>🔄 Restaurar Padrões</span>
+					</button>
+				</div>
+			</div>
+
+			<!-- Filters & Search -->
+			<div class="toolbar-section">
+				<div class="search-box">
+					<span class="search-icon">🔍</span>
+					<input type="text" id="search-input" placeholder="Buscar por nome ou descrição..." />
+				</div>
+
+				<div class="category-tabs" role="tablist">
+					<button type="button" class="tab-btn active" data-category="all">Todos (<span id="tab-count-all">0</span>)</button>
+					<button type="button" class="tab-btn" data-category="fertilizantes">Fertilizantes (<span id="tab-count-fert">0</span>)</button>
+					<button type="button" class="tab-btn" data-category="adubos">Adubos (<span id="tab-count-adub">0</span>)</button>
+					<button type="button" class="tab-btn" data-category="defensivos">Defensivos (<span id="tab-count-def">0</span>)</button>
+					<button type="button" class="tab-btn" data-category="implementos">Implementos (<span id="tab-count-imp">0</span>)</button>
+				</div>
+			</div>
+
+			<!-- Products Table -->
+			<div class="table-responsive">
+				<table class="products-table">
+					<thead>
+						<tr>
+							<th style="width: 70px;">Imagem</th>
+							<th>Nome do Produto</th>
+							<th>Descrição / Especificações</th>
+							<th>Categoria</th>
+							<th style="width: 100px; text-align: center;">Ações</th>
+						</tr>
+					</thead>
+					<tbody id="products-table-body">
+						<!-- Linhas renderizadas via JS -->
+					</tbody>
+				</table>
+
+				<div id="empty-state" class="empty-state" style="display: none;">
+					<p>Nenhum produto encontrado com os filtros selecionados.</p>
+					<button type="button" class="admin-btn admin-btn-primary" id="btn-empty-add">➕ Adicionar Produto</button>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<!-- ==========================================================================
+	     MODAL: ADICIONAR / EDITAR PRODUTO
+	     ========================================================================== -->
+	<div id="product-modal" class="modal-overlay" aria-hidden="true" role="dialog">
+		<div class="modal-container">
+			<div class="modal-header">
+				<h3 id="modal-title">Novo Produto</h3>
+				<button type="button" class="modal-close" data-close-modal>&times;</button>
+			</div>
+
+			<form id="product-form">
+				<input type="hidden" id="edit-category" value="" />
+				<input type="hidden" id="edit-index" value="-1" />
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="product-category">Categoria *</label>
+						<select id="product-category" class="form-control" required>
+							<option value="fertilizantes">Fertilizantes</option>
+							<option value="adubos">Adubos</option>
+							<option value="defensivos">Defensivos</option>
+							<option value="implementos">Implementos Agrícolas</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="product-name">Nome do Produto *</label>
+						<input type="text" id="product-name" class="form-control" placeholder="Ex: Dynamus CA+Mag 25kg" required />
+					</div>
+
+					<div class="form-group">
+						<label for="product-description">Descrição / Especificações Técnicas (Opcional)</label>
+						<textarea id="product-description" class="form-control" rows="2" placeholder="Ex: 19,5% Ca + 5,46% Mg + 5,39% S + Mat. Orgânica"></textarea>
+						<small style="color: #64748b; font-size: 0.78rem;">Dica: quebras de linha são suportadas e serão exibidas organizadas no card.</small>
+					</div>
+
+					<div class="form-group">
+						<label for="product-image-select">Imagem do Produto *</label>
+						<select id="product-image-select" class="form-control">
+							<option value="">-- Escolha uma imagem existente da pasta --</option>
+							<!-- Opções populadas via JS -->
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="product-image-custom">Ou informe nome do arquivo / envie imagem do computador:</label>
+						<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+							<input type="text" id="product-image-custom" class="form-control" style="flex: 1; min-width: 200px;" placeholder="Ex: meu-produto.jpg ou link direto" />
+							<label class="admin-btn admin-btn-outline" style="cursor: pointer; margin: 0;">
+								📁 Carregar Arquivo
+								<input type="file" id="product-image-file" accept="image/*" style="display: none;" />
+							</label>
+						</div>
+					</div>
+
+					<!-- Live Preview -->
+					<div class="preview-box">
+						<div class="preview-box-title">Prévia do Card no Site</div>
+						<div class="preview-card-wrapper">
+							<div class="product-card" id="preview-card" style="box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+								<img id="preview-img" src="./images/logo/logo-canaa-agricola.svg" alt="Prévia" />
+								<span id="preview-name">Nome do Produto</span>
+								<small id="preview-desc" style="display: none;">Descrição</small>
+								<button class="add-to-cart" type="button" style="pointer-events: none;">Adicionar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="admin-btn admin-btn-outline" data-close-modal>Cancelar</button>
+					<button type="submit" class="admin-btn admin-btn-primary" id="btn-save-product">Salvar Produto</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- ==========================================================================
+	     MODAL: CONFIRMAR EXCLUSÃO
+	     ========================================================================== -->
+	<div id="delete-modal" class="modal-overlay" aria-hidden="true" role="dialog">
+		<div class="modal-container" style="max-width: 440px;">
+			<div class="modal-header">
+				<h3>Confirmar Exclusão</h3>
+				<button type="button" class="modal-close" data-close-modal>&times;</button>
+			</div>
+			<div class="modal-body" style="text-align: center;">
+				<div style="font-size: 3rem; margin-bottom: 0.5rem;">🗑️</div>
+				<p>Tem certeza de que deseja excluir o produto <strong id="delete-product-name">...</strong>?</p>
+				<p style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem;">Essa ação removerá o produto imediatamente da listagem do site.</p>
+			</div>
+			<div class="modal-footer" style="justify-content: center;">
+				<button type="button" class="admin-btn admin-btn-outline" data-close-modal>Cancelar</button>
+				<button type="button" class="admin-btn admin-btn-danger" id="btn-confirm-delete">Sim, Excluir</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- ==========================================================================
+	     MODAL: CONTA E SENHA DO ADMINISTRADOR
+	     ========================================================================== -->
+	<div id="password-modal" class="modal-overlay" aria-hidden="true" role="dialog">
+		<div class="modal-container" style="max-width: 440px;">
+			<div class="modal-header">
+				<h3>Conta e Acesso do Administrador</h3>
+				<button type="button" class="modal-close" data-close-modal>&times;</button>
+			</div>
+			<form id="password-form">
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="admin-email-input">E-mail de Acesso *</label>
+						<input type="email" id="admin-email-input" class="form-control" value="canaa.agricola01@gmail.com" required />
+					</div>
+					<div class="form-group">
+						<label for="current-password">Senha Atual *</label>
+						<input type="password" id="current-password" class="form-control" required />
+					</div>
+					<div class="form-group">
+						<label for="new-password">Nova Senha (opcional)</label>
+						<input type="password" id="new-password" class="form-control" minlength="4" placeholder="Mínimo 4 caracteres (ou deixe em branco)" />
+					</div>
+					<div class="form-group">
+						<label for="confirm-password">Confirmar Nova Senha</label>
+						<input type="password" id="confirm-password" class="form-control" minlength="4" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="admin-btn admin-btn-outline" data-close-modal>Cancelar</button>
+					<button type="submit" class="admin-btn admin-btn-primary">Salvar Alterações</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- Toast Container -->
+	<div id="toast-container" class="toast-container"></div>
+
+	<!-- Scripts -->
+	<script src="./js/products.js"></script>
+	<script src="./js/admin.js"></script>
+</body>
+
+</html>

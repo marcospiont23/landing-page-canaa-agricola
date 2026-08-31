@@ -1,4 +1,4 @@
-const productsByCategory = {
+const defaultProductsByCategory = {
 	fertilizantes: [
 		{ name: 'ACT Algas', image: 'act-algas-1.jpg' },
 		{ name: 'All Min 3.0', image: 'all-min-1.jpg' },
@@ -18,24 +18,81 @@ const productsByCategory = {
 	adubos: [
 		{ name: 'Dynamus CA+Mag 25kg', description: '19,5% Ca + 5,46% Mg + 5,39% S + Mat. Orgânica', image: 'ca-mag-ferticel.png' },
 		{ name: 'Yara KCL 50kg', description: '0-0-60', image: 'kcl-yara.jpg' },
-		{ name: 'Krista K 25kg', description:'13-00-43', image: 'kirsta-k.jpg' },
-		{ name: 'Nit-S 25kg', description:'21% N + 24% S', image: 'nit-s-25.jpg' },
-		{ name: 'Nit-SK 25kg', description:'15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
-		{ name: 'Dynamus Phos 25kg', description:'11,62% Ca + 2% Mg + 5,12% S + 12,12% P + Mat. Orgânica', image: 'phos-ferticel.png' }
+		{ name: 'Krista K 25kg', description: '13-00-43', image: 'kirsta-k.jpg' },
+		{ name: 'Nit-S 25kg', description: '21% N + 24% S', image: 'nit-s-25.jpg' },
+		{ name: 'Nit-SK 25kg', description: '15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
+		{ name: 'Dynamus Phos 25kg', description: '11,62% Ca + 2% Mg + 5,12% S + 12,12% P + Mat. Orgânica', image: 'phos-ferticel.png' }
 	],
 	defensivos: [
-		{ name: 'Nit-SK 25kg', description:'15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
+		{ name: 'Nit-SK 25kg', description: '15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
 	],
 	implementos: [
 	]
 };
 
+function getStoredProducts() {
+	try {
+		const stored = localStorage.getItem('canaa_products');
+		if (stored) {
+			const parsed = JSON.parse(stored);
+			return {
+				fertilizantes: Array.isArray(parsed.fertilizantes) ? parsed.fertilizantes : [],
+				adubos: Array.isArray(parsed.adubos) ? parsed.adubos : [],
+				defensivos: Array.isArray(parsed.defensivos) ? parsed.defensivos : [],
+				implementos: Array.isArray(parsed.implementos) ? parsed.implementos : []
+			};
+		}
+	} catch (e) {
+		console.error('Erro ao ler produtos do localStorage:', e);
+	}
+	try {
+		localStorage.setItem('canaa_products', JSON.stringify(defaultProductsByCategory));
+	} catch (e) {
+		console.error('Erro ao inicializar localStorage:', e);
+	}
+	return defaultProductsByCategory;
+}
+
+const productsByCategory = getStoredProducts();
+
+function saveStoredProducts(data) {
+	const normalized = {
+		fertilizantes: Array.isArray(data?.fertilizantes) ? data.fertilizantes : [],
+		adubos: Array.isArray(data?.adubos) ? data.adubos : [],
+		defensivos: Array.isArray(data?.defensivos) ? data.defensivos : [],
+		implementos: Array.isArray(data?.implementos) ? data.implementos : []
+	};
+
+	try {
+		localStorage.setItem('canaa_products', JSON.stringify(normalized));
+		return true;
+	} catch (e) {
+		console.error('Erro ao salvar produtos no localStorage:', e);
+		return false;
+	}
+}
+
+function resolveProductImage(image) {
+	if (!image) return './images/logo/logo-canaa-agricola.svg';
+	if (image.startsWith('data:') || image.startsWith('http://') || image.startsWith('https://') || image.startsWith('./') || image.startsWith('/')) {
+		return image;
+	}
+	return `./images/products/${image}`;
+}
+
 function renderProducts() {
 	document.querySelectorAll('.product-grid[data-category]').forEach((grid) => {
-		const products = productsByCategory[grid.dataset.category] || [];
+		const category = grid.dataset.category;
+		const products = productsByCategory[category] || [];
+
+		if (products.length === 0) {
+			grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--gray-500); padding: 2rem 0; font-size: 0.95rem;">Nenhum produto cadastrado nesta categoria no momento.</p>';
+			return;
+		}
+
 		grid.innerHTML = products.map(({ name, image, description }) => `
 			<div class="product-card">
-				<img src="./images/products/${image}" alt="${name}">
+				<img src="${resolveProductImage(image)}" alt="${name}">
 				<span>${name}</span>
 				${description ? `<small>${description}</small>` : ''}
 				<button class="add-to-cart" type="button" data-product="${name}">Adicionar</button>
