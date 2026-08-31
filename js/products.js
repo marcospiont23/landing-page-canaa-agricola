@@ -25,6 +25,8 @@ const productsByCategory = {
 	],
 	defensivos: [
 		{ name: 'Nit-SK 25kg', description:'15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
+	],
+	implementos: [
 	]
 };
 

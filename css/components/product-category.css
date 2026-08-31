@@ -32,21 +32,30 @@
 }
 
 .category-card .category-name {
-	display: block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	position: absolute;
+	width: auto;
+	height: auto;
+	min-width: 160px;
+	min-height: 48px;
+	max-width: calc(100% - 40px);
 
 	/* O summary ocupa todo o card e mantém o botão centralizado. */
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	padding: 10px 20px;
-	border-radius: 25px;
+	padding: 10px 24px;
+	border-radius: 30px;
 	background-color: var(--white);
 	color: #6329A2;
 	font-size: 1.25rem;
 	font-weight: 400;
 	text-align: center;
+	line-height: 1.25;
 	white-space: nowrap;
+	box-sizing: border-box;
 	transition: background-color 0.3s, color 0.3s;
 }
 
@@ -68,6 +77,11 @@
 
 .defensivos > .category-card {
 	background: url(../../images/banners/defensivos-secao.jpeg) no-repeat center;
+	background-size: cover;
+}
+
+.implementos > .category-card {
+	background: url(../../images/banners/implementos-secao.jpg) no-repeat center;
 	background-size: cover;
 }
 
@@ -180,6 +194,7 @@
 .product-card small {
 	padding: 0 14px;
 	white-space: pre-line;
+	text-align: center;
 }
 
 .product-card span {
@@ -204,8 +219,8 @@
 }
 
 .product-card small {
-	color: var(--gray-500);
-	font-size: 0.78rem;
+	color: var(--gray-900);
+	font-size: 0.875rem;
 	line-height: 1.35;
 }
 

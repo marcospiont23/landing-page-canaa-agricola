@@ -18,8 +18,8 @@ main{
 
 .btn{
     font-size: 1.25rem;
-    width: 161px;
-    height: 48px;
+    min-width: 161px;
+    min-height: 48px;
     border-radius: 25px;
     color: #ffffff;
     font-weight: 400;
