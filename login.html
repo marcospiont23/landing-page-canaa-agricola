@@ -6,11 +6,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Acesso Administrativo - Canaã Soluções Agrícolas</title>
 	<meta name="robots" content="noindex, nofollow" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self'; base-uri 'self'; form-action 'self'" />
 
 	<link rel="stylesheet" href="./css/reset.css" />
 	<link rel="stylesheet" href="./css/variables.css" />
 	<link rel="stylesheet" href="./css/base.css" />
 	<link rel="stylesheet" href="./css/components/admin.css" />
+	<script src="./js/security.js" defer></script>
 </head>
 
 <body class="login-body">
@@ -55,8 +58,8 @@
 	</main>
 
 	<script>
-		// Se já estiver logado, redireciona para o painel
-		if (sessionStorage.getItem('canaa_admin_logged') === 'true' || localStorage.getItem('canaa_admin_logged') === 'true') {
+		// Redirecionar se já logado
+		if (sessionStorage.getItem('canaa_admin_logged') === 'true') {
 			window.location.href = './admin.html';
 		}
 
@@ -65,34 +68,78 @@
 		const togglePasswordBtn = document.getElementById('toggle-password');
 		const passwordInput = document.getElementById('password');
 
+		// Toggle de visibilidade de senha
 		togglePasswordBtn.addEventListener('click', () => {
 			const isPassword = passwordInput.type === 'password';
 			passwordInput.type = isPassword ? 'text' : 'password';
 			togglePasswordBtn.textContent = isPassword ? '🙈' : '👁️';
 		});
 
+		// Handler de submissão do formulário
 		loginForm.addEventListener('submit', (e) => {
 			e.preventDefault();
+
+			// Verificar se a conta está bloqueada por tentativas
+			if (isAccountLocked()) {
+				alertBox.className = 'login-alert error';
+				alertBox.textContent = '❌ Muitas tentativas falhadas. Tente novamente em 5 minutos.';
+				alertBox.style.display = 'flex';
+				return;
+			}
+
 			const username = document.getElementById('username').value.trim();
 			const password = passwordInput.value;
 
-			// Usuário e senha padrão ou personalizados salvos no localStorage
-			const validUser = localStorage.getItem('canaa_admin_user') || 'canaa.agricola01@gmail.com';
-			const validPass = localStorage.getItem('canaa_admin_pass') || 'admin';
+			// Validar campos vazios
+			if (!username || !password) {
+				alertBox.className = 'login-alert error';
+				alertBox.textContent = '⚠️ Por favor, preencha todos os campos.';
+				alertBox.style.display = 'flex';
+				return;
+			}
 
+			// Obter credenciais do localStorage
+			const validUser = localStorage.getItem('canaa_admin_user');
+			const validPass = localStorage.getItem('canaa_admin_pass');
+
+			if (!validUser || !validPass) {
+				alertBox.className = 'login-alert error';
+				alertBox.textContent = '⚠️ Sistema não configurado. Contate o administrador.';
+				alertBox.style.display = 'flex';
+				return;
+			}
+
+			// Validar credenciais
 			if (username.toLowerCase() === validUser.toLowerCase() && password === validPass) {
+				clearLoginAttempts();
 				alertBox.className = 'login-alert info';
-				alertBox.textContent = 'Autenticado com sucesso! Redirecionando...';
+				alertBox.textContent = '✓ Autenticado com sucesso! Redirecionando...';
 				alertBox.style.display = 'flex';
 
+				const sessionStart = new Date().toISOString();
 				sessionStorage.setItem('canaa_admin_logged', 'true');
+				sessionStorage.setItem('canaa_session_start', sessionStart);
+				
+				logSecurityEvent('admin_login', { email: username, success: true });
+
 				setTimeout(() => {
 					window.location.href = './admin.html';
 				}, 600);
 			} else {
+				recordFailedAttempt();
+				const attempts = getLoginAttempts();
+				const remaining = Math.max(0, SECURITY_CONFIG.MAX_ATTEMPTS - attempts.count);
+
 				alertBox.className = 'login-alert error';
-				alertBox.textContent = 'E-mail ou senha incorretos. Tente novamente.';
+				if (remaining > 0) {
+					alertBox.textContent = `❌ Credenciais incorretas. Tentativas restantes: ${remaining}`;
+				} else {
+					alertBox.textContent = '❌ Muitas tentativas falhadas. Tente novamente em 5 minutos.';
+				}
 				alertBox.style.display = 'flex';
+				
+				logSecurityEvent('admin_login', { email: username, success: false });
+				
 				passwordInput.value = '';
 				passwordInput.focus();
 			}

@@ -1,0 +1,114 @@
+# Configuração de Exemplo para Nginx
+# Canaã Soluções Agrícolas
+# 
+# Use este arquivo como referência para configurar seu servidor Nginx
+# Adapte os caminhos e domínios conforme necessário
+
+# Redirecionar HTTP para HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+    server_name seu-dominio.com.br www.seu-dominio.com.br;
+    return 301 https://$server_name$request_uri;
+}
+
+# Configuração HTTPS
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    
+    server_name seu-dominio.com.br www.seu-dominio.com.br;
+    
+    # Caminho da raiz do projeto
+    root /var/www/canaa-agricola;
+    
+    # Index files
+    index index.html;
+    
+    # ============ SSL/TLS ============
+    ssl_certificate /etc/letsencrypt/live/seu-dominio.com.br/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/seu-dominio.com.br/privkey.pem;
+    
+    # Protocolo SSL
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+    
+    # HSTS
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+    
+    # ============ SECURITY HEADERS ============
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; base-uri 'self'; form-action 'self'" always;
+    
+    # Remover informações do servidor
+    server_tokens off;
+    
+    # ============ LOGGING ============
+    access_log /var/log/nginx/canaa-agricola-access.log combined;
+    error_log /var/log/nginx/canaa-agricola-error.log warn;
+    
+    # ============ PROTEÇÃO DE ARQUIVOS SENSÍVEIS ============
+    location ~ /\.env$ {
+        deny all;
+        return 404;
+    }
+    
+    location ~ /\.git {
+        deny all;
+        return 404;
+    }
+    
+    location ~ /\.ht {
+        deny all;
+        return 404;
+    }
+    
+    # ============ CACHE STATIC ASSETS ============
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|otf)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    # Cache HTML por 1 dia
+    location ~* \.html?$ {
+        expires 1d;
+        add_header Cache-Control "public, must-revalidate";
+    }
+    
+    # ============ GZIP COMPRESSION ============
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1000;
+    gzip_types text/plain text/css text/xml text/javascript 
+               application/x-javascript application/xml+rss 
+               application/json application/javascript;
+    
+    # ============ ROUTING ============
+    # Redirecionar requisições para páginas existentes
+    location / {
+        # Se não for arquivo/diretório, retorna index.html
+        try_files $uri $uri/ /index.html;
+    }
+    
+    # Admin area
+    location ~ ^/(admin|login)\.html$ {
+        # Adicionar headers específicos para painel admin
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        add_header Pragma "no-cache";
+        add_header Expires "0";
+    }
+    
+    # ============ LIMITE DE UPLOAD ============
+    client_max_body_size 10M;
+    
+    # ============ TIMEOUTS ============
+    proxy_connect_timeout 60s;
+    proxy_send_timeout 60s;
+    proxy_read_timeout 60s;
+}

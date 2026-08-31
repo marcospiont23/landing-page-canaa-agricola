@@ -62,13 +62,43 @@ Depois acesse:
 
 Credenciais padrão iniciais:
 
-- E-mail: admin
-- Senha: admin
+O sistema inicializa automaticamente com um usuário e senha de demonstração quando nenhuma credencial está configurada. **IMPORTANTE**: Altere essas credenciais imediatamente após o primeiro login.
 
-Após o login, o usuário pode alterar o e-mail e a senha no próprio painel administrativo.
+Para alterar credenciais:
+1. Acesse o painel administrativo (login.html)
+2. Clique em "⚙️ Conta & Acesso"
+3. Informe novo e-mail e nova senha
+4. Salve as alterações
+
+## Segurança
+
+### ⚠️ Recursos de Segurança Implementados
+
+- **Content Security Policy (CSP)**: Previne injeção de scripts maliciosos
+- **Rate Limiting**: Máximo 3 tentativas de login em 5 minutos
+- **Session Timeout**: Logout automático após 30 minutos de inatividade
+- **Headers de Segurança**: X-Content-Type-Options, X-Frame-Options, HSTS, etc.
+- **Logging de Segurança**: Registro de todas as ações administrativas
+- **Backup e Restore**: Exportar/importar dados com um clique
+
+### 🔒 Requisitos de Produção
+
+Para colocar em produção, você DEVE:
+
+1. **Configurar HTTPS**: Certificado SSL/TLS obrigatório
+2. **Alterar credenciais**: Remova padrões de demonstração
+3. **Configurar servidor**: Implemente `.htaccess` (Apache) ou configuração Nginx
+4. **Revisar CSP Headers**: Ajuste políticas conforme necessário
+5. **Fazer backup inicial**: Antes de liberar para produção
+
+**📖 Leia [SEGURANCA.md](SEGURANCA.md)** para detalhes completos de segurança e checklist de produção.
 
 ## Observações importantes
 
 - O catálogo é persistido no localStorage do navegador.
 - O carrinho e o pedido são enviados para o WhatsApp com mensagem pré-formatada.
 - Para uso em produção, revise o conteúdo da política de privacidade e as informações de contato com base no real fluxo de dados da operação.
+- **Dados no LocalStorage**: Os produtos e credenciais são armazenados no localStorage do navegador. Para produção com dados sensíveis, considere implementar um backend com autenticação segura.
+- **HTTPS obrigatório**: Em produção, sempre use HTTPS. O arquivo `.htaccess` inclui redirecionamento automático HTTP → HTTPS.
+- **Logs de segurança**: Revise regularmente os logs de segurança (`localStorage.canaa_security_logs`) para detectar atividades suspeitas.
+- **Backup regularizado**: Faça backup dos dados pelo menos 1x por semana usando a função de exportação no painel administrativo.

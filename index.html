@@ -6,6 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Canaã Soluções Agrícolas</title>
 	<meta name="description" content="Compre os melhores produtos agrícolas. Encontre ofertas imperdíveis." />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy"
+		content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self'; connect-src 'self' https://wa.me https://maps.googleapis.com; frame-src https://www.google.com; base-uri 'self'; form-action 'self'" />
 
 	<link rel="stylesheet" href="./css/reset.css" />
 	<link rel="stylesheet" href="./css/variables.css" />
@@ -15,6 +18,7 @@
 	<link rel="stylesheet" href="./css/components/product-category.css" />
 	<link rel="stylesheet" href="./css/components/location-info.css" />
 	<link rel="stylesheet" href="./css/components/footer.css" />
+	<script src="./js/security.js" defer></script>
 </head>
 
 <body>
@@ -26,12 +30,12 @@
 			</a>
 		</h1>
 
-		<input type="checkbox" class="menu-toggle" id="menu-toggle" />
-		<label for="menu-toggle" class="menu-icon">
+		<button class="menu-icon" id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="main-navigation"
+			aria-expanded="false">
 			<img src="./images/icons/hamburguer.svg" alt="Abrir menu" />
-		</label>
+		</button>
 
-		<nav class="nav-container">
+		<nav class="nav-container" id="main-navigation">
 			<nav class="nav-center" aria-label="Categorias Principais">
 				<ul>
 					<li><a href="#fertilizantes">Fertilizantes</a></li>
@@ -261,39 +265,7 @@
 		</div>
 	</aside>
 	<div class="cart-backdrop" hidden></div>
-
-	<script>
-		const menuToggle = document.getElementById('menu-toggle');
-		const menuLinks = document.querySelectorAll('.nav-container a');
-
-		const closeMobileMenu = () => {
-			if (menuToggle) {
-				menuToggle.checked = false;
-			}
-		};
-
-		menuLinks.forEach((link) => {
-			link.addEventListener('click', closeMobileMenu);
-		});
-
-	
-document.addEventListener('click', (event) => {
-			if (!menuToggle || !menuToggle.checked) return;
-			const clickedInsideMenu = event.target.closest('.nav-container');
-			const clickedMenuButton = event.target.closest('.menu-icon');
-			if (!clickedInsideMenu && !clickedMenuButton) {
-				closeMobileMenu();
-			}
-		});
-
-	
-document.addEventListener('keydown', (event) => {
-			if (event.key === 'Escape' && menuToggle && menuToggle.checked) {
-				closeMobileMenu();
-			}
-		});
-	</script>
-
+	<script src="./js/menu.js"></script>
 	<script src="./js/products.js"></script>
 	<script src="./js/cart.js"></script>
 </body>

@@ -95,6 +95,7 @@ function init() {
 	populateImageOptions();
 	renderDashboard();
 	setupEventListeners();
+	initSessionMonitoring();
 }
 
 function populateImageOptions() {
@@ -294,9 +295,10 @@ function getSelectedImageValue() {
 function setupEventListeners() {
 	// Logout
 	document.getElementById('btn-logout').addEventListener('click', () => {
-		sessionStorage.removeItem('canaa_admin_logged');
-		localStorage.removeItem('canaa_admin_logged');
-		window.location.href = './login.html';
+		if (confirm('Deseja sair do painel administrativo?')) {
+			secureLogout();
+			window.location.href = './login.html';
+		}
 	});
 
 	// Botões de Abertura de Modal
@@ -411,11 +413,13 @@ function setupEventListeners() {
 			} else {
 				productsData[category][prevIndex] = newProduct;
 			}
+			logSecurityEvent('product_edited', { product: name, category });
 			showToast(`Produto "${name}" atualizado com sucesso!`, 'success');
 		} else {
 			// Inclusão
 			if (!productsData[category]) productsData[category] = [];
 			productsData[category].push(newProduct);
+			logSecurityEvent('product_added', { product: name, category });
 			showToast(`Produto "${name}" adicionado com sucesso!`, 'success');
 		}
 
@@ -430,6 +434,7 @@ function setupEventListeners() {
 		if (index >= 0 && category && productsData[category]) {
 			productsData[category].splice(index, 1);
 			saveStoredProducts(productsData);
+			logSecurityEvent('product_deleted', { product: name, category });
 			showToast(`Produto "${name}" excluído com sucesso!`, 'success');
 			closeAllModals();
 			renderDashboard();
@@ -463,6 +468,7 @@ function setupEventListeners() {
 			localStorage.setItem('canaa_admin_user', email);
 		}
 
+		logSecurityEvent('admin_password_changed', { email });
 		showToast('Dados de acesso atualizados com sucesso!', 'success');
 		passwordForm.reset();
 		closeAllModals();
@@ -480,9 +486,19 @@ function setupEventListeners() {
 			productsData = JSON.parse(JSON.stringify(defaultProductsByCategory));
 			saveStoredProducts(productsData);
 			renderDashboard();
+			logSecurityEvent('catalog_reset', {});
 			showToast('Catálogo restaurado para as configurações padrão!', 'info');
 		}
 	});
+
+	// Backup e Restore
+	if (document.getElementById('btn-backup-export')) {
+		document.getElementById('btn-backup-export').addEventListener('click', handleBackupExport);
+	}
+
+	if (document.getElementById('btn-backup-import')) {
+		document.getElementById('btn-backup-import').addEventListener('click', handleBackupImport);
+	}
 }
 
 // 8. Exportação e Geração de Código JS
@@ -650,6 +666,77 @@ function escapeHtml(str) {
 function escapeQuotes(str) {
 	if (!str) return '';
 	return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+}
+
+// 10. Backup e Restore
+function handleBackupExport() {
+	const backup = createBackup();
+	if (!backup) {
+		showToast('Erro ao criar backup', 'error');
+		return;
+	}
+
+	const blob = new Blob([backup], { type: 'application/json;charset=utf-8' });
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = `canaa-backup-${new Date().toISOString().split('T')[0]}.json`;
+	document.body.appendChild(a);
+	a.click();
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
+	
+	logSecurityEvent('backup_created', { timestamp: new Date().toISOString() });
+	showToast('✓ Backup exportado com sucesso!', 'success');
+}
+
+function handleBackupImport() {
+	const input = document.createElement('input');
+	input.type = 'file';
+	input.accept = '.json';
+	
+	input.onchange = (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			try {
+				const result = restoreBackup(event.target.result);
+				if (result.success) {
+					showToast(result.message, 'success');
+					setTimeout(() => {
+						location.reload();
+					}, 1000);
+				} else {
+					showToast(result.message, 'error');
+				}
+			} catch (error) {
+				showToast(`Erro ao processar arquivo: ${error.message}`, 'error');
+			}
+		};
+		reader.readAsText(file);
+	};
+	
+	input.click();
+}
+
+// 11. Monitoramento de Sessão
+function initSessionMonitoring() {
+	// Verificar timeout de inatividade
+	monitorSessionTimeout();
+
+	// Verificar validade da sessão ao carregar
+	const sessionStart = sessionStorage.getItem('canaa_session_start');
+	if (sessionStart) {
+		const sessionAge = Date.now() - new Date(sessionStart).getTime();
+		const MAX_SESSION_AGE = 60 * 60 * 1000; // 1 hora hard limit
+
+		if (sessionAge > MAX_SESSION_AGE) {
+			secureLogout();
+			window.location.href = './login.html?timeout=true';
+		}
+	}
 }
 
 // Funções globais chamadas pelo HTML inline

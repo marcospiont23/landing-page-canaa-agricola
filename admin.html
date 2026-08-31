@@ -6,12 +6,15 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Painel Administrativo - Canaã Soluções Agrícolas</title>
 	<meta name="robots" content="noindex, nofollow" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; form-action 'self'" />
 
 	<link rel="stylesheet" href="./css/reset.css" />
 	<link rel="stylesheet" href="./css/variables.css" />
 	<link rel="stylesheet" href="./css/base.css" />
 	<link rel="stylesheet" href="./css/components/product-category.css" />
 	<link rel="stylesheet" href="./css/components/admin.css" />
+	<script src="./js/security.js" defer></script>
 </head>
 
 <body class="admin-body">
@@ -102,6 +105,12 @@
 					</button>
 					<button type="button" id="btn-reset-default" class="admin-btn admin-btn-outline" title="Restaurar lista original de produtos">
 						<span>🔄 Restaurar Padrões</span>
+					</button>
+					<button type="button" id="btn-backup-export" class="admin-btn admin-btn-outline" title="Exportar backup completo dos dados">
+						<span>💾 Exportar Backup</span>
+					</button>
+					<button type="button" id="btn-backup-import" class="admin-btn admin-btn-outline" title="Importar backup de dados">
+						<span>📂 Importar Backup</span>
 					</button>
 				</div>
 			</div>
