@@ -62,7 +62,7 @@ Depois acesse:
 
 Credenciais padrão iniciais:
 
-- E-mail: canaa.agricola01@gmail.com
+- E-mail: admin
 - Senha: admin
 
 Após o login, o usuário pode alterar o e-mail e a senha no próprio painel administrativo.
