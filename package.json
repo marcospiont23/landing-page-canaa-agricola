@@ -1,0 +1,10 @@
+{
+  "name": "canaa-agricola",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site institucional e catálogo da Canaã Soluções Agrícolas.",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "check": "node scripts/build.js"
+  }
+}

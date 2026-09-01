@@ -277,15 +277,10 @@ server {
 
 ### Se Esquecer a Senha
 
-1. Abra console do navegador (F12)
-2. Execute:
-   ```javascript
-   localStorage.removeItem('canaa_admin_pass');
-   localStorage.removeItem('canaa_admin_user');
-   location.reload();
-   ```
-3. O sistema reinicializará com credenciais de demonstração
-4. Faça login e configure nova senha
+1. Acesse o painel do Supabase.
+2. Abra **Authentication > Users**.
+3. Selecione o usuário administrador e redefina a senha.
+4. Faça login novamente no painel administrativo.
 
 ---
 
@@ -293,8 +288,8 @@ server {
 
 Para maior segurança em futuras versões:
 
-- [ ] Implementar autenticação com servidor backend
-- [ ] Usar JWT tokens com expiração
+- [x] Implementar autenticação com Supabase Auth
+- [x] Usar sessões com tokens de expiração gerenciados pelo Supabase
 - [ ] Adicionar autenticação de dois fatores (2FA)
 - [ ] Implementar criptografia end-to-end para dados
 - [ ] Adicionar webhooks para notificações de segurança

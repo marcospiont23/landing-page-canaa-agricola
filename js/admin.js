@@ -1,10 +1,5 @@
 // admin.js - Controle e Operações do Painel Administrativo
 
-// 1. Verificação de Autenticação
-if (sessionStorage.getItem('canaa_admin_logged') !== 'true' && localStorage.getItem('canaa_admin_logged') !== 'true') {
-	window.location.href = './login.html';
-}
-
 // 2. Lista de Imagens existentes em ./images/products/
 const availableImages = [
 	'18-04-17.jpg',
@@ -16,6 +11,7 @@ const availableImages = [
 	'all-min-5.jpg',
 	'alliado-1.jpg',
 	'alliado-5.jpg',
+	'amiorgan.jpg',
 	'aplicador-granulos.jpg',
 	'atomizador-kw.jpeg',
 	'bombstim-1.jpg',
@@ -37,6 +33,7 @@ const availableImages = [
 	'kcl-yara.jpg',
 	'kirsta-k.jpg',
 	'magnesio-1.jpg',
+	'magnesio.png',
 	'nit-s-25.jpg',
 	'nit-sk-25.jpg',
 	'perfurador-kw.jpeg',
@@ -53,7 +50,27 @@ const availableImages = [
 	'tesoura-1.jpg',
 	'tesoura-2.jpg',
 	'vattariza.png',
-	'vergota flor cafe.jpg'
+	'vergota flor cafe.jpg',
+	'yara-calcinit.png',
+	'yara-map.png',
+	'yara-rega.jpg',
+	'./images/defensivos/adama-logo.svg',
+	'./images/defensivos/albaugh-logo.svg',
+	'./images/defensivos/alta-logo.png',
+	'./images/defensivos/basf-logo.png',
+	'./images/defensivos/bayer-logo.svg',
+	'./images/defensivos/corteva-logo.jpg',
+	'./images/defensivos/cropchem-logo.png',
+	'./images/defensivos/fmc-logo.jpg',
+	'./images/defensivos/helm-logo.jpg',
+	'./images/defensivos/ihara-logo.png',
+	'./images/defensivos/nortox-logo.png',
+	'./images/defensivos/rainbow-logo.jpg',
+	'./images/defensivos/simbiose-logo.png',
+	'./images/defensivos/sinon-logo.jpg',
+	'./images/defensivos/syngenta-logo.jpg',
+	'./images/defensivos/tide-logo.png',
+	'./images/defensivos/upl-logo.jpg'
 ];
 
 // Estado da Aplicação
@@ -296,9 +313,9 @@ function getSelectedImageValue() {
 // 7. Event Listeners
 function setupEventListeners() {
 	// Logout
-	document.getElementById('btn-logout').addEventListener('click', () => {
+	document.getElementById('btn-logout').addEventListener('click', async () => {
 		if (confirm('Deseja sair do painel administrativo?')) {
-			secureLogout();
+			await secureLogout();
 			window.location.href = './login.html';
 		}
 	});
@@ -306,8 +323,9 @@ function setupEventListeners() {
 	// Botões de Abertura de Modal
 	document.getElementById('btn-add-product').addEventListener('click', openAddModal);
 	document.getElementById('btn-empty-add').addEventListener('click', openAddModal);
-	document.getElementById('btn-change-password').addEventListener('click', () => {
-		const currentEmail = localStorage.getItem('canaa_admin_user') || 'canaa.agricola01@gmail.com';
+	document.getElementById('btn-change-password').addEventListener('click', async () => {
+		const { data: { user } } = await window.supabaseClient.auth.getUser();
+		const currentEmail = user?.email || '';
 		const emailInput = document.getElementById('admin-email-input');
 		if (emailInput) emailInput.value = currentEmail;
 		openModal(passwordModal);
@@ -462,18 +480,29 @@ function setupEventListeners() {
 	});
 
 	// Alterar Conta e Senha
-	passwordForm.addEventListener('submit', (e) => {
+	passwordForm.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const email = document.getElementById('admin-email-input').value.trim();
 		const currentPass = document.getElementById('current-password').value;
 		const newPass = document.getElementById('new-password').value;
 		const confirmPass = document.getElementById('confirm-password').value;
 
-		const storedPass = localStorage.getItem('canaa_admin_pass') || 'admin';
-
-		if (currentPass !== storedPass) {
-			showToast('A senha atual informada está incorreta.', 'error');
+		const { data: { user } } = await window.supabaseClient.auth.getUser();
+		if (!user?.email) {
+			window.location.href = './login.html';
 			return;
+		}
+
+		if (newPass || email !== user.email) {
+			if (!currentPass) {
+				showToast('Informe sua senha atual para alterar os dados de acesso.', 'error');
+				return;
+			}
+			const { error: signInError } = await window.supabaseClient.auth.signInWithPassword({ email: user.email, password: currentPass });
+			if (signInError) {
+				showToast('A senha atual informada está incorreta.', 'error');
+				return;
+			}
 		}
 
 		if (newPass) {
@@ -481,15 +510,23 @@ function setupEventListeners() {
 				showToast('A nova senha e a confirmação não conferem.', 'error');
 				return;
 			}
-			localStorage.setItem('canaa_admin_pass', newPass);
+			const { error } = await window.supabaseClient.auth.updateUser({ password: newPass });
+			if (error) {
+				showToast(error.message, 'error');
+				return;
+			}
 		}
 
-		if (email) {
-			localStorage.setItem('canaa_admin_user', email);
+		if (email && email !== user.email) {
+			const { error } = await window.supabaseClient.auth.updateUser({ email });
+			if (error) {
+				showToast(error.message, 'error');
+				return;
+			}
 		}
 
 		logSecurityEvent('admin_password_changed', { email });
-		showToast('Dados de acesso atualizados com sucesso!', 'success');
+		showToast('Dados de acesso atualizados. A alteração de e-mail pode exigir confirmação.', 'success');
 		passwordForm.reset();
 		closeAllModals();
 	});
@@ -747,17 +784,16 @@ function initSessionMonitoring() {
 	monitorSessionTimeout();
 
 	// Verificar validade da sessão ao carregar
-	const sessionStart = sessionStorage.getItem('canaa_session_start');
-	if (sessionStart) {
-		const sessionAge = Date.now() - new Date(sessionStart).getTime();
-		const MAX_SESSION_AGE = 60 * 60 * 1000; // 1 hora hard limit
-
-		if (sessionAge > MAX_SESSION_AGE) {
-			secureLogout();
-			window.location.href = './login.html?timeout=true';
-		}
-	}
 }
 
-// Iniciar
-document.addEventListener('DOMContentLoaded', init);
+async function initializeAdmin() {
+	const { data: { session }, error } = await window.supabaseClient.auth.getSession();
+	if (error || !session) {
+		window.location.replace('./login.html');
+		return;
+	}
+
+	init();
+}
+
+document.addEventListener('DOMContentLoaded', initializeAdmin);

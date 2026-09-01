@@ -140,7 +140,6 @@ function createBackup() {
             timestamp: new Date().toISOString(),
             data: {
                 products: localStorage.getItem('canaa_products'),
-                adminUser: localStorage.getItem('canaa_admin_user'),
                 settings: localStorage.getItem('canaa_admin_settings')
             },
             checksum: 'manual'
@@ -178,27 +177,6 @@ function restoreBackup(backupData) {
 }
 
 /**
- * Inicializa credenciais padrão se não existirem
- */
-function initializeAdminCredentials() {
-    const hasUser = localStorage.getItem('canaa_admin_user');
-    const hasPass = localStorage.getItem('canaa_admin_pass');
-
-    const isLegacyDemoCredential = hasUser === 'admin@empresa.com.br' && hasPass.startsWith('Demo');
-
-    if (!hasUser || !hasPass || isLegacyDemoCredential) {
-        localStorage.setItem('canaa_admin_user', 'admin@canaa.com.br');
-        localStorage.setItem('canaa_admin_pass', 'senha123');
-        
-        console.log('%c⚠️ SEGURANÇA: Credenciais inicializadas com valores de demonstração', 
-                    'color: orange; font-weight: bold; font-size: 12px');
-        console.log('Altere-as no painel administrativo após o login.');
-        
-        logSecurityEvent('admin_init', { action: 'credentials_initialized' });
-    }
-}
-
-/**
  * Valida força da senha
  */
 function validatePasswordStrength(password) {
@@ -219,13 +197,11 @@ function validatePasswordStrength(password) {
 /**
  * Faz logout seguro
  */
-function secureLogout() {
+async function secureLogout() {
     try {
-        const email = localStorage.getItem('canaa_admin_user') || 'unknown';
+        await window.supabaseClient?.auth.signOut();
+        logSecurityEvent('admin_logout');
         
-        logSecurityEvent('admin_logout', { email });
-        
-        sessionStorage.removeItem('canaa_admin_logged');
         sessionStorage.removeItem('canaa_session_start');
         
         return true;
@@ -245,10 +221,10 @@ function monitorSessionTimeout() {
     function resetTimer() {
         clearTimeout(inactivityTimer);
         
-        inactivityTimer = setTimeout(() => {
+        inactivityTimer = setTimeout(async () => {
             console.warn('Sessão expirada por inatividade');
             logSecurityEvent('session_timeout', {});
-            secureLogout();
+            await secureLogout();
             window.location.href = './login.html';
         }, SESSION_TIMEOUT);
     }
@@ -262,9 +238,3 @@ function monitorSessionTimeout() {
     resetTimer();
 }
 
-// Inicializar credenciais ao carregar qualquer página
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.includes('admin.html') || window.location.pathname.includes('login.html')) {
-        initializeAdminCredentials();
-    }
-});

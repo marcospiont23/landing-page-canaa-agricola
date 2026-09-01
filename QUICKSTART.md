@@ -117,12 +117,7 @@ Após os primeiros passos, leia:
 ## ❓ Perguntas Frequentes
 
 ### P: Esqueci a senha admin
-**R**: Execute no console (F12):
-```javascript
-localStorage.removeItem('canaa_admin_pass');
-localStorage.removeItem('canaa_admin_user');
-location.reload();
-```
+**R**: No painel do Supabase, acesse **Authentication > Users**, selecione o usuário administrador e redefina a senha.
 
 ### P: Como restaurar dados perdidos?
 **R**: Use o backup importando arquivo `.json` via "📂 Importar Backup"

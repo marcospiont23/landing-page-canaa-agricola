@@ -101,7 +101,7 @@ Implementadas **21 proteções** em 5 camadas:
 ```
 1. Leia START-HERE.md (5 min)
 2. Teste localmente (5 min)
-3. Login com admin@canaa.com.br / senha123 (5 min)
+3. Faça login com o usuário administrador criado no Supabase (5 min)
 ```
 
 ### Opção 3: SEGURO (1 hora)

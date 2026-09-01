@@ -1,7 +1,3 @@
-if (sessionStorage.getItem('canaa_admin_logged') === 'true') {
-	window.location.href = './admin.html';
-}
-
 const loginForm = document.getElementById('login-form');
 const alertBox = document.getElementById('login-alert');
 const togglePasswordButton = document.getElementById('toggle-password');
@@ -19,7 +15,14 @@ togglePasswordButton.addEventListener('click', () => {
 	togglePasswordButton.textContent = isPassword ? 'Ocultar senha' : 'Mostrar senha';
 });
 
-loginForm.addEventListener('submit', (event) => {
+async function redirectIfAuthenticated() {
+	const { data: { session } } = await window.supabaseClient.auth.getSession();
+	if (session) window.location.replace('./admin.html');
+}
+
+redirectIfAuthenticated();
+
+loginForm.addEventListener('submit', async (event) => {
 	event.preventDefault();
 
 	if (isAccountLocked()) {
@@ -35,20 +38,14 @@ loginForm.addEventListener('submit', (event) => {
 		return;
 	}
 
-	const validUser = localStorage.getItem('canaa_admin_user');
-	const validPass = localStorage.getItem('canaa_admin_pass');
+	const { error } = await window.supabaseClient.auth.signInWithPassword({
+		email: username,
+		password
+	});
 
-	if (!validUser || !validPass) {
-		showLoginAlert('Sistema não configurado. Contate o administrador.', 'error');
-		return;
-	}
-
-	if (username.toLowerCase() === validUser.toLowerCase() && password === validPass) {
+	if (!error) {
 		clearLoginAttempts();
 		showLoginAlert('Autenticado com sucesso! Redirecionando...', 'info');
-
-		sessionStorage.setItem('canaa_admin_logged', 'true');
-		sessionStorage.setItem('canaa_session_start', new Date().toISOString());
 		logSecurityEvent('admin_login', { email: username, success: true });
 
 		setTimeout(() => {

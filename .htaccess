@@ -32,7 +32,7 @@
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
     
     # Content Security Policy
-    Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; base-uri 'self'; form-action 'self'"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' https: data:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://wa.me https://maps.googleapis.com https://sjoxvmfmofdyecqnzhfe.supabase.co; frame-src https://www.google.com; base-uri 'self'; form-action 'self'"
     
     # Remover header do servidor
     Header always unset X-Powered-By

@@ -372,11 +372,8 @@ Se tráfego crescer:
 # Via painel admin: 📂 Importar Backup
 
 # Se perder acesso ao admin
-# Limpar localStorage via console:
-localStorage.removeItem('canaa_admin_logged');
-localStorage.removeItem('canaa_admin_user');
-localStorage.removeItem('canaa_admin_pass');
-location.reload();
+# No painel do Supabase, abra Authentication > Users,
+# selecione o usuário administrador e redefina a senha.
 
 # Se tiver acesso SSH
 # Restaurar versão anterior do Git
