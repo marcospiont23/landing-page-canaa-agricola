@@ -218,6 +218,12 @@
 	background: var(--brand-dark);
 }
 
+.product-information-link {
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
 .product-card small {
 	color: var(--gray-900);
 	font-size: 0.875rem;
