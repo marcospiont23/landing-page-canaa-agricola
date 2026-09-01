@@ -27,6 +27,15 @@ const defaultProductsByCategory = {
 		{ name: 'Nit-SK 25kg', description: '15-00-15 + 17% S', image: 'nit-sk-25.jpg' },
 	],
 	implementos: [
+		{ name: 'Dosador Costal Simétrico', image: 'dosador-guarany.png', description: 'Guarany 20L' },
+		{ name: 'Aplicador Costal de Granulos', image: 'aplicador-granulos.jpg', description: 'Guarany 16L' },
+		{ name: 'Atomizador Costal', image: 'atomizador-kw.jpeg', description: 'Kawashima 26cc' },
+		{ name: 'Derriçadeira Café', image: 'derricadeira-cafe.jpeg', description: 'Kawashima 26cc' },
+		{ name: 'Eletrosserra Poda', image: 'eletrosserra-3.jpg', description: 'Kawashima 7 pol' },
+		{ name: 'Pulverizador Costal 20L', image: 'pulverizador-kw.jpeg', description: 'Kawashima' },
+		{ name: 'Perfurador de Solo', image: 'perfurador-kw.jpeg', description: 'Kawashima 52cc' },
+		{ name: 'Roçadeira Lateral', image: 'rocadeira-52-kw.jpeg', description: 'Kawashima 52cc' },
+		{ name: 'Soprador Costal', image: 'soprador-kw.jpeg', description: 'Kawashima 52cc' }
 	]
 };
 
