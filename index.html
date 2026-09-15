@@ -12,10 +12,10 @@
 
 	<link rel="stylesheet" href="./css/reset.css" />
 	<link rel="stylesheet" href="./css/variables.css" />
-	<link rel="stylesheet" href="./css/base.css" />
+	<link rel="stylesheet" href="./css/base.css?v=20260915" />
 	<link rel="stylesheet" href="./css/components/header.css" />
-	<link rel="stylesheet" href="./css/components/hero.css" />
-	<link rel="stylesheet" href="./css/components/product-category.css" />
+	<link rel="stylesheet" href="./css/components/hero.css?v=20260915" />
+	<link rel="stylesheet" href="./css/components/product-category.css?v=20260915-2" />
 	<link rel="stylesheet" href="./css/components/location-info.css" />
 	<link rel="stylesheet" href="./css/components/footer.css" />
 	<script src="./js/security.js" defer></script>
@@ -73,22 +73,28 @@
 	</header>
 
 	<main>
-		<section class="hero-section">
-			<!-- Seção hero -->
+		<section class="hero-section" data-hero-images='["./images/banners/cafe-hero.jpg","./images/banners/cafe-mobile.jpg"]'>
 			<div class="hero-overlay">
-				<!-- <div class="hero-content">
-					<span class="hero-subtitle">Canaã Soluções Agrícolas</span>
-					<h2 class="hero-title">Parceria para o sucesso da sua lavoura.</h2>
-					<div class="hero-buttons">
-						<a class="btn btn-outline" href="#categorias">Ver Produtos</a>
-						<a class="btn btn-filled" href="https://wa.me/5527999524877" target="_blank"
-							rel="noopener noreferrer">Comprar</a>
+				<div class="hero-content">
+					<div class="hero-copy">
+						<p class="hero-eyebrow">São Roque do Canaã · Espírito Santo</p>
+						<h2 class="hero-title">O campo pede presença.</h2>
+						<p class="hero-description">Produtos e orientação para cada etapa da sua lavoura, com atendimento próximo.</p>
 					</div>
-				</div> -->
+					<div class="hero-buttons">
+						<a class="btn btn-filled hero-primary-link" href="#categorias">Explorar produtos <span class="hero-link-icon" aria-hidden="true">↗</span></a>
+						<a class="hero-text-link" href="https://wa.me/5527999524877" target="_blank" rel="noopener noreferrer">Falar com a equipe <span class="hero-link-icon" aria-hidden="true">↗</span></a>
+					</div>
+				</div>
 			</div>
 		</section>
 
 		<section class="categories-section" id="categorias">
+			<div class="section-intro">
+				<p class="section-kicker">Nosso catálogo</p>
+				<h2>Escolha o próximo passo da sua lavoura.</h2>
+				<p>Encontre insumos, proteção e equipamentos para trabalhar com mais precisão.</p>
+			</div>
 			<details class="category-item fertilizantes" id="fertilizantes">
 				<summary class="category-card">
 					<span class="overlay" aria-hidden="true"></span>
@@ -266,6 +272,7 @@
 	</aside>
 	<div class="cart-backdrop" hidden></div>
 	<script src="./js/menu.js"></script>
+	<script src="./js/hero.js?v=20260915"></script>
 	<script src="./js/products.js"></script>
 	<script src="./js/cart.js"></script>
 </body>

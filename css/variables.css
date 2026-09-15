@@ -1,14 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 :root{
-    --fonte-principal: 'Ubuntu', sans-serif;
-    --brand-dark: #333333;
-    --brand-green: #22c55e;
-    --brand-green-dark: #16a34a;
+    --fonte-principal: 'DM Sans', sans-serif;
+    --fonte-display: 'Space Grotesk', sans-serif;
+    --brand-dark: #17231d;
+    --brand-green: #b5d334;
+    --brand-green-dark: #426b2d;
+    --brand-forest: #203b2a;
+    --brand-sand: #f2efe5;
+    --brand-orange: #e36f3d;
     --white: #ffffff;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
-    --gray-700: #374151;
-    --gray-800: #1f2937;
+    --gray-300: #d7ddd0;
+    --gray-400: #9ba69b;
+    --gray-500: #647066;
+    --gray-700: #334338;
+    --gray-800: #253229;
+    --gray-900: #1a261f;
 }

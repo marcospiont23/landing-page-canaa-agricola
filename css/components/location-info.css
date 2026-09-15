@@ -1,27 +1,32 @@
 .info-section {
-	padding: 2rem;
-	background-color: #3e4147;
-	border-radius: 20px;
+	padding: clamp(2rem, 6vw, 5rem);
+	background-color: var(--brand-forest);
+	border-radius: 28px;
 }
 
 .top1-content {
 	max-width: 1360px;
 	margin: 0 auto;
-	text-align: center;
+	text-align: left;
+	max-width: 950px;
+	margin-right: auto;
 }
 
 .card-title {
 	color: #ffffff;
-	font-size: 1.25rem;
-	font-weight: 400;
+	font-family: var(--fonte-display);
+	font-size: clamp(1.8rem, 4vw, 3rem);
+	font-weight: 600;
+	letter-spacing: -0.04em;
 	margin-bottom: 10px;
 }
 
 .card-subtitle {
 	color: #ffffff;
-	font-size: 1.125rem;
-	font-weight: 400;
-    text-align: justify;
+	font-size: 1.05rem;
+	line-height: 1.7;
+	color: #dbe3d2;
+	max-width: 70ch;
 }
 
 @media (max-width: 768px) {
