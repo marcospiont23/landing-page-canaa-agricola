@@ -36,6 +36,7 @@ Instruções passo a passo para colocar o site em produção.
 
 | Provedor | Plano Mínimo | HTTPS | Autoescala | Recomendado Para |
 |----------|-------------|-------|-----------|-----------------|
+| **Cloudflare Pages** | Gratuito | ✅ | ✅ | Site empresarial estático, CDN global |
 | **Netlify** | Gratuito | ✅ | ✅ | Iniciantes, CDN global |
 | **Vercel** | Gratuito | ✅ | ✅ | Performance máxima |
 | **GitHub Pages** | Gratuito | ✅ | ✅ | Projetos simples |
@@ -53,7 +54,64 @@ Instruções passo a passo para colocar o site em produção.
 
 ---
 
-## 3. Deploy no Netlify (Recomendado para Iniciantes)
+## 3. Deploy no Cloudflare Pages (Recomendado)
+
+O projeto é um site estático. O Cloudflare Pages publica a raiz do repositório, entrega HTTPS automaticamente e permite conectar um domínio próprio.
+
+### Passo 1: Publicar o repositório
+
+```bash
+git init
+git add .
+git commit -m "Deploy inicial - Canaã Soluções Agrícolas"
+git branch -M main
+git remote add origin https://github.com/seu-usuario/canaa-agricola.git
+git push -u origin main
+```
+
+Não inclua `node_modules` no repositório. O `.gitignore` já cobre essa pasta.
+
+### Passo 2: Criar o projeto no Cloudflare
+
+1. Acesse [Cloudflare Dashboard](https://dash.cloudflare.com/).
+2. Abra **Workers & Pages** e selecione **Create application**.
+3. Escolha **Pages** e conecte o GitHub.
+4. Selecione o repositório `canaa-agricola`.
+5. Configure o build:
+
+```text
+Framework preset: None
+Build command: npm run build
+Build output directory: .
+Root directory: /
+```
+
+O comando `npm run build` valida as páginas e os scripts; os arquivos publicados permanecem na raiz do projeto.
+
+### Passo 3: Configurar domínio próprio
+
+1. No projeto Pages, abra **Custom domains**.
+2. Selecione **Set up a custom domain**.
+3. Informe o domínio da empresa.
+4. Siga os registros DNS indicados pelo Cloudflare.
+
+O arquivo `_headers` na raiz será aplicado automaticamente pelo Cloudflare Pages. Ele configura CSP, HTTPS estrito, proteção contra MIME sniffing e cache sem persistência para páginas HTML.
+
+### Passo 4: Validar a publicação
+
+```text
+https://seu-dominio.com.br/
+https://seu-dominio.com.br/login.html
+https://seu-dominio.com.br/admin.html
+```
+
+Confirme no navegador imagens, fontes, menu mobile, categorias, carrinho, WhatsApp, login Supabase e ausência de erros de CSP no console.
+
+O Supabase continua hospedando autenticação e dados. O Cloudflare Pages hospeda somente os arquivos estáticos do site.
+
+---
+
+## 4. Deploy no Netlify (Alternativa)
 
 ### Passo 1: Preparar Repositório Git
 
