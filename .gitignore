@@ -25,13 +25,16 @@ Thumbs.db
 
 # Dependências (se usar npm no futuro)
 node_modules/
-package-lock.json
 yarn.lock
 
 # Build e Dist
 dist/
 build/
 *.zip
+
+# Cloudflare Wrangler
+.wrangler/
+.dev.vars
 
 # Logs
 *.log
